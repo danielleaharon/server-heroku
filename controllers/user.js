@@ -13,10 +13,14 @@ const createUsertest = async (req, res) => {
       return await userService.createUserTestName(testAbout).then(respond=>{
         if(respond==null){
           res.json({
+            status:200,
             message:'free' 
         })
         }else{
-          res.json({ message:' no free' });
+          res.json({ 
+            status:400,
+
+            message:' no free' });
     
         }
       });
@@ -24,10 +28,14 @@ const createUsertest = async (req, res) => {
         return await userService.createUserTestEmail(testAbout).then(respond=>{
           if(respond==null){
             res.json({
+              status:200,
               message:'free' 
             })
           }else{
-            res.json({ message:' no free' });
+
+            res.json({ 
+              status:400,
+              message:' no free' });
       
           }
         });
@@ -35,10 +43,14 @@ const createUsertest = async (req, res) => {
           return await userService.createUserTestPhoneNumber(testAbout).then(respond=>{
             if(respond==null){
               res.json({
+                status:200,
                 message:'free' 
               })
             }else{
-              res.json({ message:' no free' });
+              
+              res.json({ 
+                status:400,
+                message:' no free' });
         
             }
           });
