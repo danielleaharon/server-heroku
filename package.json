@@ -1,14 +1,36 @@
 {
   "name": "heroku-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon app.js",
+    "start": "nodemon app.js"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
-  }
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.5",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "custom-env": "^2.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "express-validator": "^6.10.0",
+    "js-cookie": "^2.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.12.3",
+    "node": "^15.12.0",
+    "nodemon": "^2.0.7",
+    "react-bootstrap": "^1.5.2",
+    "slugify": "^1.5.0",
+    "socket.io": "^4.0.1",
+    "string-strip-html": "^8.2.12"
+  },
+  "devDependencies": {},
+  "description": ""
 }
