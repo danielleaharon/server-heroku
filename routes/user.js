@@ -4,8 +4,7 @@ const userController = require('../controllers/user');
 
 
 //validatores
-const{runValidation}=require('../validators');
-const{userSignupValidator,userSigninValidator}=require('../validators/user');
+
 
 
 // router.route('/')
@@ -15,7 +14,7 @@ const{userSignupValidator,userSigninValidator}=require('../validators/user');
 router.post('/test',userController.createUsertest);
 
 router.post('/signup',userController.createUser);
-router.post('/signin',userSigninValidator,runValidation,userController.Signin);
+router.post('/signin',userController.Signin);
 router.post('/signout',userController.Signout);
 
 
