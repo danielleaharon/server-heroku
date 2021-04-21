@@ -28,11 +28,36 @@ const User = new Schema({
         lowecase:true
 
     },
-    PhoneNumber:Number,
+    PhoneNumber:{
+        type: String,
+        required: true,
+        trim:true,
+        unigue:true,
+        index:true,
+        lowecase:true
+    },
     isCoach:Boolean,
-    zoom_meetingNumber:String,
-    zoom_meetingPassword:String,
-    image:String,
+    zoom_meetingNumber:{
+        type: String,
+        required: true,
+        trim:true,
+        unigue:true,
+        index:true,
+        lowecase:true    },
+    zoom_meetingPassword:{
+        type: String,
+        required: true,
+        trim:true,
+        unigue:true,
+        index:true,
+        lowecase:true    },
+    image:{
+        type: String,
+        required: true,
+        trim:true,
+        unigue:true,
+        index:true,
+        },
     tokenID:String,
     posts : [
         {
