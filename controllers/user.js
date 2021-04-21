@@ -27,15 +27,11 @@ const createUsertest = async (req, res) => {
       case "email":
         return await userService.createUserTestEmail(testAbout).then(respond=>{
           if(respond==null){
-            res.json({
-              status:200,
-              message:'free' 
-            })
+            res.status(200);
           }else{
 
-            res.json({ 
-              status:400,
-              message:' no free' });
+            res.status(400);
+
       
           }
         });
