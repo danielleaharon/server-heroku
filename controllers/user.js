@@ -61,7 +61,7 @@ const createUsertest = async (req, res) => {
   
 };
 const createUser= async (req, res) => {
-    return await userService.createUser(req.body.email,req.body.name,req.body.password,req.body.phoneNumber,req.body.isCoach,req.body.zoom_meetingNumber,req.body.zoom_meetingPassword,req.body.image).then((newUser)=>{
+    return await userService.createUser(req.body.email,req.body.name,req.body.password,req.body.PhoneNumber,req.body.isCoach,req.body.zoom_meetingNumber,req.body.zoom_meetingPassword,req.body.image).then((newUser)=>{
         if(newUser!=null)
         {
             res.json({
