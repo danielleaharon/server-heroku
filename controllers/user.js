@@ -13,10 +13,10 @@ const createUsertest = async (req, res) => {
       return await userService.createUserTestName(testAbout).then(respond=>{
         if(respond==null){
           res.json({
-            message:'Signup success!' 
+            message:'free' 
         })
         }else{
-          res.json({ error: ['Signup not success'] });
+          res.json({ message:' no free' });
     
         }
       });
@@ -24,10 +24,10 @@ const createUsertest = async (req, res) => {
         return await userService.createUserTestEmail(testAbout).then(respond=>{
           if(respond==null){
             res.json({
-              message:'Signup success!' 
-          })
+              message:'free' 
+            })
           }else{
-            res.json({ error: ['Signup not success'] });
+            res.json({ message:' no free' });
       
           }
         });
@@ -35,10 +35,10 @@ const createUsertest = async (req, res) => {
           return await userService.createUserTestPhoneNumber(testAbout).then(respond=>{
             if(respond==null){
               res.json({
-                message:'Signup success!' 
-            })
+                message:'free' 
+              })
             }else{
-              res.json({ error: ['Signup not success'] });
+              res.json({ message:' no free' });
         
             }
           });
