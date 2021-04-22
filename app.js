@@ -16,7 +16,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const post = require('./routes/post');
 const user = require('./routes/user');
-const comments = require('./routes/comment');
+const devices = require('./routes/devices');
 const cors = require('cors'); 
 // const socketIo = require('socket.io');
 // const http = require('http');
@@ -44,7 +44,7 @@ app.use(express.json());
 
 app.use('/posts', post);
 app.use('/user', user);
-app.use('/comments', comments);
+app.use('/devices', devices);
 
 // const server = http.createServer(app);
 
