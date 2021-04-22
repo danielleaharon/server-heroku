@@ -39,7 +39,7 @@ const createUsertest = async (req, res) => {
       
           }
         });
-        case "phoneNumber":
+        case "PhoneNumber":
           return await userService.createUserTestPhoneNumber(testAbout).then(respond=>{
             if(respond==null){
               res.json({
