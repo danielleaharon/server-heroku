@@ -83,16 +83,27 @@ const Signin=async (req, res) => {
       console.log(user)
 
         if (!user) {
-            return res.status(404).json({ error: ['User not found'] });
+          return  res.json({
+            status:404,
+            message:'User not found'
+
+        });
+            // return res.status(404).json({ error: ['User not found'] });
         }
-        if(!user.authenticate(password))
-        return res.status(400).json({error:'Email and password do not match'});
+        if(!user.authenticate(password)){
+        return  res.json({
+          status:400,
+          message:'Email and password do not matc'
+      });
+    }
+        // return res.status(400).json({error:'Email and password do not match'});
     
         const token =jwt.sign({_id: user._id},process.env.JWT_SECRET,{expiresIn:'1d'});
     
         console.log(process.env.JWT_SECRET);
         res.cookie('token',token,{expiresIn:'1d'});
         return  res.json({
+          status:200,
             token,user
         });
     });
