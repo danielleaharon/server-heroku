@@ -70,7 +70,7 @@ const getPosts = async (req, res) => {
 };
 // const deletePost = async (req, res) => {
  
-//         Post.findById(req.params.postId).exec((err,post)=>{
+//         Post.findById(req.params.rpostId).exec((err,post)=>{
 //             if(err||!post){
 //                  res.status(404).json({ errors: ['Post not found'] });        
 //             }

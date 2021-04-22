@@ -19,5 +19,5 @@ const deletePost = async (id) => {
 module.exports = {
     deletePost,
     getPostById,
-    createPostScrape
+    
 }
