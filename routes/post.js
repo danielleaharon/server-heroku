@@ -11,7 +11,7 @@ router.get('/', postController.getPosts);
 
 router.get('/Category', postController.getItemTypeCountes);
 
-router.post('/:userId/:postId', postController.DeletePost);
+router.get('/:userId/:postId', postController.DeletePost);
 
 
 module.exports = router;

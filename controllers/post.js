@@ -32,6 +32,8 @@ const create = (req, res) => {
         likes:req.body.likes,
         isDelete:req.body.isDelete,
         video:req.body.video,
+        devices:req.body.devices,
+
 
     });
 
