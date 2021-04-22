@@ -16,7 +16,6 @@ const Post = new Schema({
     userId:String,
     username:String,
     category:String,
-    title:String,
     likes:Number,
     isDelete:Boolean,
     video:String,

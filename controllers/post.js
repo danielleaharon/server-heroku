@@ -26,10 +26,13 @@ const getItemTypeCountes =  async (req, res) => {
 const create = (req, res) => {
 
     const post = new Post({
-        content: req.body.content,
         username:req.body.username,
+        userId:req.body.userId,
         category:req.body.category,
-        title:req.body.title
+        likes:req.body.likes,
+        isDelete:req.body.isDelete,
+        video:req.body.video,
+
     });
 
     post.save().then(newPost => {
@@ -47,10 +50,7 @@ const create = (req, res) => {
         res.json({ status: 'failed' });
     });
 }
-const createPostScrape= async (req,res)=>{
-    const newPost = await PostService.createPostScrape(req.body.title,req.body.username,req.body.category,req.body.content);
-    res.json(newPost);
-}
+
 const get = async (req, res) => {    
     const id =req.params.userId;
     User.findById(id).populate('posts').exec(function (err, docs) {
@@ -66,47 +66,56 @@ const getPosts = async (req, res) => {
    
   
 };
-
-const deletePost = async (req, res) => {
+// const deletePost = async (req, res) => {
  
-        Post.findById(req.params.postId).exec((err,post)=>{
-            if(err||!post){
-                 res.status(404).json({ errors: ['Post not found'] });        
-            }
-            else{
-                   post.remove().then((suceecs)=>{
+//         Post.findById(req.params.postId).exec((err,post)=>{
+//             if(err||!post){
+//                  res.status(404).json({ errors: ['Post not found'] });        
+//             }
+//             else{
+//                    post.remove().then((suceecs)=>{
         
-                            User.findByIdAndUpdate(req.params.userId , 
-                                {  $pullAll: {
-                                    posts:  [req.params.postId]
+//                             User.findByIdAndUpdate(req.params.userId , 
+//                                 {  $pullAll: {
+//                                     posts:  [req.params.postId]
                                      
-                                }},{ new: true }
-                            ).then(() => res.json({ status: 'success', value : post })).catch((err) => {
-                                res.json({ status: err });
-                            });
+//                                 }},{ new: true }
+//                             ).then(() => res.json({ status: 'success', value : post })).catch((err) => {
+//                                 res.json({ status: err });
+//                             });
                         
                 
-                    }  );
+//                     }  );
             
-        }
-    });
-}
+//         }
+//     });
+// }
 
 const updatePost = async (req, res) => {
     Post.findByIdAndUpdate(req.params.postId, 
         {  
-            title: req.body.title,
             category:req.body.category,
-            content:req.body.content
-
-             
+            likes:req.body.likes,
+        
         },{ new: true }
     ).then(() => res.json({ status: 'success' })).catch((err) => {
         res.json({ status: "error: "+err});
     });
    
   
-};          
+};     
+const DeletePost = async (req, res) => {
+    Post.findByIdAndUpdate(req.params.postId, 
+        {  
+            isDelete:true,
+        
+        },{ new: true }
+    ).then(() => res.json({ status: 'success' })).catch((err) => {
+        res.json({ status: "error: "+err});
+    });
+   
+  
+};           
   
 
-module.exports = { create, get ,getPosts,deletePost,updatePost,createPostScrape,getItemTypeCountes};
+module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost};

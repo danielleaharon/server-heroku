@@ -1,81 +1,98 @@
-const User = require('../models/devices');
-const jwt=require('jsonwebtoken');
-const expressJwt=require('express-jwt');
+const Device = require('../models/devices');
+const Post = require('../models/post');
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 require('dotenv').config();
 
 
+const addDevicePost = async (PostId,deviceId) => {
+    return await Device.findById(deviceId).then(device=>{
 
-const createUser = async (email,name,password,PhoneNumber,isCoach,zoom_meetingNumber,zoom_meetingPassword,image) => {
-    console.log("createUser")
-    const user = new User({
-        email : email,
-        name: name,
-        username:email,
-        password:password,
-        PhoneNumber:PhoneNumber,
-        isCoach:isCoach,
-        zoom_meetingNumber:zoom_meetingNumber,
-        zoom_meetingPassword:zoom_meetingPassword,
-        image:image,
+        Post.findByIdAndUpdate(PostId,{
+            $push: {
+                devices: {
+                    $each: [device],
+                    $position: 0
+                }
+            }
+        })
+     
+    })
+
+    
+};
+const createDevice = async ( userId,device_name, device_image) => {
+    console.log("createDevice")
+    const device = new Device({
+        device_name: device_name,
+        device_image: device_image,
 
     });
 
-    return await user.save();
+    return await device.save().then(newDevice => {
+        User.findByIdAndUpdate(userId, {
+            $push: {
+                devices: {
+                    $each: [newDevice],
+                    $position: 0
+                }
+            }
+        });
+});
+}
+
+
+const getDevicesPost = async (id) => {    
+    Post.findById(id).populate('devices').exec(function (err, docs) {
+        if (err) return null;
+        return docs.devices;
+    });
+}
+const getDevicesUser = async (id) => {    
+    User.findById(id).populate('devices').exec(function (err, docs) {
+        if (err) return null;
+        return docs.devices;
+    });
+}
+
+
+const getDeviceById = async (id) => {
+
+    return await Device.findById(id);
 };
-const Signin= async (email) => {
-
-    const user= await User.findOne({email});
-  
-    console.log("user:"+user);
-    return await user;
-     
-};
-
-const getUserById = async (id) => {
-  
-    return await User.findById(id);
-};
 
 
-const getUsers = async () => {
-    return await User.find({});
-};
-
-const updateUser = async (id,email,name,password,phoneNumber,isCoach,zoom_meetingNumber,zoom_meetingPassword,image) => {
-    const user = await findOne(id);
-    if (!user)
+const updateDevice = async (id, device_name, device_image) => {
+    const device = await Device.findById(id);
+    if (!device)
         return null;
 
-    user.email = email;
-    user.name=name;
-    user.username=email,
-    user.password=password,
-    user.phoneNumber=phoneNumber,
-    user.isCoach=isCoach,
-    user.zoom_meetingNumber=zoom_meetingNumber,
-    user. zoom_meetingPassword=zoom_meetingPassword,
-    user.image=image,
+    device.device_name = device_name;
+    device.device_image = device_image;
+
     await user.save();
     return user;
 };
 
-const deleteUser= async (id) => {
-    const user = await getUserById(id);
-    if (!user)
+const deleteDevice = async (id) => {
+    const device = await getDeviceById(id);
+    if (!device)
         return null;
 
-    await user.remove();
-    return user;
+    device.isDelete = true;
+
+    await device.save();
+    return device;
 };
 
 module.exports = {
-    createUser,
-    getUserById,
-    getUsers,
-    updateUser,
-    deleteUser,
-    Signin,
-    createUserTestName,
-    createUserTestEmail,
-    createUserTestPhoneNumber
+    createDevice,
+    getDeviceById,
+    updateDevice,
+    deleteDevice,
+    getDevicesPost,
+    getDevicesUser,
+    addDevicePost,
+   
 }
