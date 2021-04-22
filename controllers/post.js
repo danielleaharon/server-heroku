@@ -57,7 +57,9 @@ const get = async (req, res) => {
     const id =req.params.userId;
     User.findById(id).populate('posts').exec(function (err, docs) {
         if (err) console.error(err.stack||err);
-        res.json(docs.posts);
+        res.json({
+            data: docs.posts
+        });
     });
 }
 const getPosts = async (req, res) => {
