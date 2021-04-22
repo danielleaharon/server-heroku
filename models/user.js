@@ -28,7 +28,7 @@ const User = new Schema({
         lowecase:true
 
     },
-    PhoneNumber:Number,
+    PhoneNumber:String,
     isCoach:Boolean,
     zoom_meetingNumber:String,
     zoom_meetingPassword:String,
@@ -38,6 +38,18 @@ const User = new Schema({
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Post"
+        }
+      ],
+      calendar_events: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Calendar"
+        }
+      ],
+      devices: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Devices"
         }
       ],
     //passeword
