@@ -15,8 +15,8 @@ router.post('/create',devicesController.createDevice);
 router.post('/addToPost/:deviceId/:postId',devicesController.addDevicePost);
 router.post('/update',devicesController.updateDevice);
 router.get('/delete/:id',devicesController.deleteDevice);
-router.get('/user/:userId',devicesController.getDevicesUser);
-router.get('/post/:postId',devicesController.getDevicesPost);
+router.get('/:userId',devicesController.getDevicesUser);
+router.get('/:postId',devicesController.getDevicesPost);
 
 
 
