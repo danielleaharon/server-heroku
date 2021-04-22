@@ -1,4 +1,4 @@
-const deviceService = require('../services/device');
+const deviceService = require('../services/devices');
 const jwt=require('jsonwebtoken');
 const expressJwt=require('express-jwt');
 const User=require('../models/user');
