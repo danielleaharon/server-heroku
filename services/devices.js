@@ -8,13 +8,10 @@ require('dotenv').config();
 
 const addDevicePost = async (PostId,deviceId) => {
     return await Device.findById(deviceId).then(device=>{
-
+console.log("post add devices"+device)
         Post.findByIdAndUpdate(PostId,{
             $push: {
-                devices: {
-                    $each: [device],
-                    $position: 0
-                }
+                devices:[device]
             }
         })
      
@@ -25,11 +22,13 @@ const addDevicePost = async (PostId,deviceId) => {
 const createDevice = async ( userId,device_name, device_image) => {
     console.log("createDevice")
     const device = new Device({
+        userId:userId,
         device_name: device_name,
         device_image: device_image,
 
     });
 
+    console.log(userId)
     return await device.save().then(newDevice => {
         User.findByIdAndUpdate(userId, {
             $push: {

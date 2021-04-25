@@ -38,7 +38,7 @@ const create = (req, res) => {
     });
 
     post.save().then(newPost => {
-        User.findOneAndUpdate({ username: req.body.username }, {
+        User.findByIdAndUpdate(req.body.userId , {
             $push: {
                 posts: {
                     $each: [newPost],
@@ -52,16 +52,63 @@ const create = (req, res) => {
         res.json({ status: 'failed' });
     });
 }
+const like = (req, res) => {
+    console.log("like:"+req.body.postId)
 
+    Post.findByIdAndUpdate(req.body.postId,{
+        $inc:{likes:1}
+
+    }).then(post=>{
+        console.log("like:"+{post})
+        User.findByIdAndUpdate(req.body.userId , {
+            $push: {
+                posts: {
+                    $each: [post],
+                    $position: 0
+                }
+            }
+        }).then(() => 
+        res.json({ status: 'success', value : post })).catch(() => {
+            res.json({ status: 'failed' });
+        });
+    }).catch(() => {
+        res.json({ status: 'failed' });
+    });
+    
+        
+}
 const get = async (req, res) => {    
     const id =req.params.userId;
     User.findById(id).populate('posts').exec(function (err, docs) {
         if (err) console.error(err.stack||err);
-        res.json({
-            data: docs.posts
-        });
+        res.json(docs.posts);
+
     });
 }
+const disLike = (req, res) => {
+    console.log("disLike:")
+
+    Post.findByIdAndUpdate(req.body.postId,{
+        $inc:{likes:-1}
+
+    }).then(post=>{
+        console.log("disLike:"+{post})
+        User.findByIdAndUpdate(req.body.userId , {
+            $pullAll: {
+                posts:  [req.body.postId]
+
+            }
+        }).then(() => 
+        res.json({ status: 'success', value : post })).catch(() => {
+            res.json({ status: 'failed' });
+        });
+    }).catch(() => {
+        res.json({ status: 'failed' });
+    });
+    
+        
+}
+
 const getPosts = async (req, res) => {
     Post.find({}).exec((err,docs)=>{
         if (err) console.error(err.stack||err);
@@ -70,30 +117,31 @@ const getPosts = async (req, res) => {
    
   
 };
-// const deletePost = async (req, res) => {
+const DeletePost = async (req, res) => {
  
-//         Post.findById(req.params.rpostId).exec((err,post)=>{
-//             if(err||!post){
-//                  res.status(404).json({ errors: ['Post not found'] });        
-//             }
-//             else{
-//                    post.remove().then((suceecs)=>{
+
+        Post.findById(req.params.postId).exec((err,post)=>{
+            if(err||!post){
+                 res.status(404).json({ errors: ['Post not found'] });        
+            }
+            else{
+                   post.remove().then((suceecs)=>{
         
-//                             User.findByIdAndUpdate(req.params.userId , 
-//                                 {  $pullAll: {
-//                                     posts:  [req.params.postId]
+                            User.findOneAndDelete(req.params.postId , 
+                                {  $pullAll: {
+                                    posts:  [req.params.postId]
                                      
-//                                 }},{ new: true }
-//                             ).then(() => res.json({ status: 'success', value : post })).catch((err) => {
-//                                 res.json({ status: err });
-//                             });
+                                }},{ new: true }
+                            ).then(() => res.json({ status: 'success', value : post })).catch((err) => {
+                                res.json({ status: err });
+                            });
                         
                 
-//                     }  );
+                    }  );
             
-//         }
-//     });
-// }
+        }
+    });
+}
 
 const updatePost = async (req, res) => {
     Post.findByIdAndUpdate(req.params.postId, 
@@ -108,18 +156,18 @@ const updatePost = async (req, res) => {
    
   
 };     
-const DeletePost = async (req, res) => {
-    Post.findByIdAndUpdate(req.params.postId, 
-        {  
-            isDelete:true,
+// const DeletePost = async (req, res) => {
+//     Post.findByIdAndUpdate(req.params.postId, 
+//         {  
+//             isDelete:true,
         
-        },{ new: true }
-    ).then(() => res.json({ status: 'success' })).catch((err) => {
-        res.json({ status: "error: "+err});
-    });
+//         },{ new: true }
+//     ).then(() => res.json({ status: 'success' })).catch((err) => {
+//         res.json({ status: "error: "+err});
+//     });
    
   
-};           
+// };           
   
 
-module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost};
+module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost,like,disLike};

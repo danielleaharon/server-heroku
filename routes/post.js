@@ -8,6 +8,9 @@ router.post('/:userId/:postId', postController.updatePost);
 
 router.get('/', postController.getPosts);
 
+router.post('/like', postController.like);
+router.post('/dislike', postController.disLike);
+
 
 router.get('/Category', postController.getItemTypeCountes);
 

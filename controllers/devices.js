@@ -2,76 +2,121 @@ const deviceService = require('../services/devices');
 const jwt=require('jsonwebtoken');
 const expressJwt=require('express-jwt');
 const User=require('../models/user');
+const Device = require('../models/devices');
+const Post = require('../models/post');
+
 require('dotenv').config();
 
 
 
-const getDevicesPost = async (req, res) => {    
+const getDevicesPost = async (req, res) => {   
   const id =req.params.postId;
-  return await deviceService.getDevicesPost().then(respond=>{
-    if(respond!=null){
-      res.json({
-        message: "error"
-      });
+   
+    Post.findById(id).populate('devices').exec(function (err, docs) {
+        if (err) console.error(err.stack||err);
+        res.json(docs.devices);
 
-    }
-    else{
-      res.json(respond);
+    });
 
-    }
-
-  });
 
 }
 const getDevicesUser = async (req, res) => {    
   const id =req.params.userId;
-  return await deviceService.getDevicesUser().then(respond=>{
-    if(respond!=null){
-      res.json({
-        message: "error"
-      });
-
-    }
-    else{
-      res.json(respond);
-
-    }
+  User.findById(id).populate('devices').exec(function (err, docs) {
+      if (err) console.error(err.stack||err);
+      res.json(docs.devices);
 
   });
-
 }
+// const getDevicesUser = async (req, res) => {    
+//   const id =req.params.userId;
+//   return await deviceService.getDevicesUser().then(respond=>{
+//     if(respond!=null){
+//       res.json({
+//         message: "error"
+//       });
+
+//     }
+//     else{
+//       res.json(respond);
+
+//     }
+
+//   });
+
+// }
 
 const addDevicePost= async (req, res) => {
 
-    return await deviceService.addDevicePost(req.params.postId,req.params.deviceId).then((newDevice)=>{
-        if(newDevice!=null)
-        {
-            res.json({
-                status:200 
-            })
+
+  Device.findById(req.body.deviceId).then(devices => {
+    Post.findByIdAndUpdate(req.body.postId , {
+        $push: {
+          devices: {
+                $each: [devices],
+                $position: 0
+            }
         }
-        else{
-          res.json({
-            status:400 
-        })        }
+    }).then(() => res.json({ status: 'success', value : devices })).catch(() => {
+        res.json({ status: 'failed' });
     });
+}).catch(() => {
+    res.json({ status: 'failed' });
+});
+    // return await deviceService.addDevicePost(req.body.postId,req.body.deviceId).then((newDevice)=>{
+    //     if(newDevice!=null)
+    //     {
+    //         res.json({
+    //             status:200 
+    //         })
+    //     }
+    //     else{
+    //       res.json({
+    //         status:400 
+    //     })        }
+    // });
   
 };
-const createDevice= async (req, res) => {
-      return await deviceService.createDevice(req.body.userId,req.body.device_name,req.body.device_image).then((newDevice)=>{
-        if(newDevice!=null)
-        {
-            res.json({
-                status:200 
-            })
-        }
-        else{
-          res.json({
-            status:400 
-        })        }
+const createDevice = (req, res) => {
+
+  console.log("createDevice")
+    const device = new Device({
+        userId:req.body.userId,
+        device_name: req.body.device_name,
+        device_image: req.body.device_image,
+
     });
+
+    device.save().then(newPost => {
+      User.findByIdAndUpdate(req.body.userId , {
+          $push: {
+              devices: {
+                  $each: [newPost],
+                  $position: 0
+              }
+          }
+      }).then(() => res.json({ status: 'success', value : newPost })).catch(() => {
+          res.json({ status: 'failed' });
+      });
+  }).catch(() => {
+      res.json({ status: 'failed' });
+  });
+}
+// const createDevice= async (req, res) => {
+//       return await deviceService.createDevice(req.body.userId,req.body.device_name,req.body.device_image).then((newDevice)=>{
+//         if(newDevice!=null)
+//         {
+//             res.json({
+//                 status:200 
+//             })
+//         }
+//         else{
+//           res.json({
+//             status:400 
+//         })        }
+//     });
   
-};
+// };
 
 const updateDevice= async (req, res) => {
   id, device_name, device_image

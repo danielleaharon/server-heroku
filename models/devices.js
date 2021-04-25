@@ -6,6 +6,7 @@ const Devices = new Schema({
         type: Date,
         default: Date.now
     },
+    userId:String,
     device_name : {
         type: String,
         required: true,
