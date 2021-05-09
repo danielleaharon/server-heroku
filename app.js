@@ -20,12 +20,6 @@ const devices = require('./routes/devices');
 const calendar = require('./routes/calendar');
 
 const cors = require('cors'); 
-// const socketIo = require('socket.io');
-// const http = require('http');
-
-// const socketIo = require('socket.io');
-
-
 
 require('dotenv').config();
 
