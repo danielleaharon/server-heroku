@@ -13,11 +13,12 @@ const Post = new Schema({
           ref: "Devices"
         }
       ],
-    userId:String,
-    username:String,
+     userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
     category:String,
     likes:Number,
-    isDelete:Boolean,
     video:String,
 });
 

@@ -3,34 +3,68 @@ const User = require('../models/user');
 const PostService = require('../services/post');
 
 const getItemTypeCountes =  async (req, res) => {
+    console.log("getItemTypeCountes")
+
     const results = await Post.aggregate([
-      {
-        $unwind: '$category',
-      },
+    //   {
+    //     $unwind: { 
+    //         path: "$category",
+    //  }
+    // },
       {
         $group: {
           _id: '$category',
           total: { $sum: 1 },
+          posts: { $push: '$$ROOT' }
         },
       },
     ]);
   
-    res.status(200).json({
-      status: 'success',
-      data: {
-        results,
-      },
+    console.log(results)
+    res.json({results
     });
+ 
 }
+const getPostsMoreDate =  async (req, res) => {
+    console.log("getPostsByDate")
+    console.log(req.params.more)
+    const d = new Date()
+    var myCurrentDate=new Date();
+    myCurrentDate.setDate(myCurrentDate.getDate()-req.params.more*2);
+    console.log(myCurrentDate)
 
+    var myPastDate=new Date(myCurrentDate);
+        myPastDate.setDate(myPastDate.getDate() - 2);//2 day's befor
+        
+    const result=  await Post.find({ "published" : { $gt: myPastDate, $lt: myCurrentDate} } ).populate('userId');;    // value1 < field < value
+    result.sort((a,b)=>b.published-a.published);
+
+   
+    res.json(result);
+
+//  console.log(result)
+ 
+}
+const getPostsByDate =  async (req, res) => {
+    console.log("getPostsByDate")
+
+    var myCurrentDate=new Date();
+    var myPastDate=new Date(myCurrentDate);
+        myPastDate.setDate(myPastDate.getDate() - 2);//2 day's befor
+    const result=  await Post.find({ "published" : { $gt: myPastDate } } ).populate('userId');    // value1 < field < value
+result.sort((a,b)=>b.published-a.published);
+ 
+    res.json(result);
+
+//  console.log(result)
+ 
+}
 const create = (req, res) => {
 
     const post = new Post({
-        username:req.body.username,
         userId:req.body.userId,
         category:req.body.category,
         likes:req.body.likes,
-        isDelete:req.body.isDelete,
         video:req.body.video,
         devices:req.body.devices,
 
@@ -77,13 +111,34 @@ const like = (req, res) => {
     
         
 }
-const get = async (req, res) => {    
+
+const get = async (req, res) => {  
+    console.log("getPostByUser")
+
     const id =req.params.userId;
-    User.findById(id).populate('posts').exec(function (err, docs) {
+    var username;
+  User.findById(id).populate('posts').exec(function (err, docs) {
         if (err) console.error(err.stack||err);
-        res.json(docs.posts);
+        const post=docs.posts;
+        console.log(post)
+        if(post[0]!=null){
+            console.log("in")
+            User.findById(post[0].userId).then(user=>{
+                username =user.name
+                res.json([docs.posts,username,user.image]);
+       
+               });
+        }else{
+            console.log("out")
+
+            res.json([docs.posts]);
+
+        }
+     
+        
 
     });
+
 }
 const disLike = (req, res) => {
     console.log("disLike:")
@@ -110,6 +165,8 @@ const disLike = (req, res) => {
 }
 
 const getPosts = async (req, res) => {
+    console.log("getPosts")
+
     Post.find({}).exec((err,docs)=>{
         if (err) console.error(err.stack||err);
         res.json(docs);
@@ -170,4 +227,4 @@ const updatePost = async (req, res) => {
 // };           
   
 
-module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost,like,disLike};
+module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost,like,disLike,getPostsMoreDate,getPostsByDate};

@@ -1,6 +1,4 @@
 const deviceService = require('../services/devices');
-const jwt=require('jsonwebtoken');
-const expressJwt=require('express-jwt');
 const User=require('../models/user');
 const Device = require('../models/devices');
 const Post = require('../models/post');
@@ -102,48 +100,57 @@ const createDevice = (req, res) => {
       res.json({ status: 'failed' });
   });
 }
-// const createDevice= async (req, res) => {
-//       return await deviceService.createDevice(req.body.userId,req.body.device_name,req.body.device_image).then((newDevice)=>{
-//         if(newDevice!=null)
-//         {
-//             res.json({
-//                 status:200 
-//             })
-//         }
-//         else{
-//           res.json({
-//             status:400 
-//         })        }
-//     });
-  
-// };
 
-const updateDevice= async (req, res) => {
-  id, device_name, device_image
-    const device = await deviceService.updateDevice(req.body.deviceId,req.body.device_name,req.body.device_image);
-    if (!device) {
-      return  res.json({ 
-        status:400,
-        message:' device not found' });
+const updateDevice = async (req, res) => {
+  Device.findByIdAndUpdate(req.params.deviceId, 
+      {  
+        device_name:req.body.device_name,
+        device_image:req.body.device_image,
+      
+      },{ new: true }
+  ).then(() => res.json({ status: 'success' })).catch((err) => {
+      res.json({ status: "error: "+err});
+  });
+ 
+
+};  
+
+  const deleteDevice = async (req, res) => {
+ 
+
+    Device.findById(req.params.deviceId).exec((err,device)=>{
+        if(err||!device){
+             res.status(404).json({ errors: ['Device not found'] });        
+        }
+        else{
+          device.remove().then((suceecs)=>{
+    
+                        User.findByIdAndUpdate(req.params.userId , 
+                            {  $pullAll: {
+                              devices:  [req.params.deviceId]
+                                 
+                            }},{ new: true }
+                        ).then(() => res.json({ status: 'success', value : device })).catch((err) => {
+                            res.json({ status: err });
+                        });
+                    
+            
+                }  );
+        
     }
+});
+}
+  // const deleteDevice= async (req, res) => {
+  //   const device = await deviceService.deleteDevice(req.params.id);
+  //   if (!device) {
+  //     return  res.json({ 
+  //       status:400,
+  //       message:' device not found' });    }
   
-    res.json({
-      status:200,
-      device
-    });
-  };
-
-  const deleteDevice= async (req, res) => {
-    const device = await deviceService.deleteDevice(req.params.id);
-    if (!device) {
-      return  res.json({ 
-        status:400,
-        message:' device not found' });    }
-  
-        res.json({
-          status:200,
-        });
-  };
+  //       res.json({
+  //         status:200,
+  //       });
+  // };
 
 
 

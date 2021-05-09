@@ -12,10 +12,13 @@ const userController = require('../controllers/user');
 //     .post(articleController.createArticle);
 
 router.post('/test',userController.createUsertest);
+router.get('/:userId',userController.getUser);
 
 router.post('/signup',userController.createUser);
 router.post('/signin',userController.Signin);
 router.post('/signout',userController.Signout);
+router.post('/update/:userId',userController.updateUser);
+router.post('/update/imageUrl/:userId',userController.updateImage);
 
 
 // router.get('/secret',userController.requireSignin,(req,res)=>{

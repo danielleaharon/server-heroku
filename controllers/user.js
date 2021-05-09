@@ -131,7 +131,8 @@ const getUsers = async (req, res) => {
 
 
 const getUser = async (req, res) => {
-    const user = await userService.getUserById(req.params.id);
+  console.log("getUserById")
+    const user = await userService.getUserById(req.params.userId);
     if (!user) {
         return res.status(404).json({ errors: ['User not found'] });
     }
@@ -142,18 +143,33 @@ const getUser = async (req, res) => {
 
 const updateUser= async (req, res) => {
    
-    const user = await userService.updateUser(req.body.email,req.body.name,req.body.password,req.body.phoneNumber,req.body.isCoach,req.body.zoom_meetingNumber,req.body.zoom_meetingPassword,req.body.image);
+    const user = await userService.updateUser(req.params.userId,req.body.email,req.body.name,req.body.phoneNumber,req.body.zoom_meetingNumber,req.body.zoom_meetingPassword,req.body.image);
     if (!user) {
+      console.log("user not found")
+
       return res.status(404).json({ errors: ['user not found'] });
     }
   
-    res.json(article);
+    console.log("user upadate")
+    res.json(user);
+  };
+  const updateImage= async (req, res) => {
+   
+    const user = await userService.updateUserImage(req.params.userId,req.body.imageUrl);
+    if (!user) {
+      console.log("user not found")
+
+      return res.status(404).json({ errors: ['user not found'] });
+    }
+  
+    console.log("user upadate")
+    res.json(user);
   };
 
   const deleteUser= async (req, res) => {
     const user = await userService.deleteUser(req.params.id);
     if (!user) {
-      return res.status(404).json({ errors: ['Article not found'] });
+      return res.status(404).json({ errors: ['user not found'] });
     }
   
     res.send();
@@ -170,4 +186,5 @@ const updateUser= async (req, res) => {
     Signin,
     Signout,
     createUsertest,
+    updateImage
   };

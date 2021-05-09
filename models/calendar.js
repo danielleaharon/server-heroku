@@ -7,10 +7,13 @@ const Calendar = new Schema({
         type: Date,
         default: Date.now
     },
+    // userId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User"
+    // },
     userId:String,
     username:String,
     category:String,
-    isDelete:Boolean,
     calenderEvent_id:Number,
     meeting_number:String,
     meeting_password:String,

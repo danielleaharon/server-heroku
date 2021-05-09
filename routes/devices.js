@@ -13,8 +13,8 @@ const devicesController = require('../controllers/devices');
 
 router.post('/create',devicesController.createDevice);
 router.post('/addToPost',devicesController.addDevicePost);
-router.post('/update',devicesController.updateDevice);
-router.get('/delete/:id',devicesController.deleteDevice);
+router.post('/update/:deviceId',devicesController.updateDevice);
+router.get('/delete/:deviceId/:userId',devicesController.deleteDevice);
 router.get('/:userId',devicesController.getDevicesUser);
 router.get('/post/:postId',devicesController.getDevicesPost);
 

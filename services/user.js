@@ -62,24 +62,30 @@ const getUsers = async () => {
     return await User.find({});
 };
 
-const updateUser = async (id,email,name,password,phoneNumber,isCoach,zoom_meetingNumber,zoom_meetingPassword,image) => {
-    const user = await findOne(id);
+const updateUser = async (id,email,name,phoneNumber,zoom_meetingNumber,zoom_meetingPassword,image) => {
+    const user = await getUserById(id);
     if (!user)
         return null;
 
     user.email = email;
     user.name=name;
     user.username=email,
-    user.password=password,
     user.phoneNumber=phoneNumber,
-    user.isCoach=isCoach,
     user.zoom_meetingNumber=zoom_meetingNumber,
     user. zoom_meetingPassword=zoom_meetingPassword,
     user.image=image,
     await user.save();
     return user;
 };
+const updateUserImage = async (id,image) => {
+    const user = await getUserById(id);
+    if (!user)
+        return null;
 
+    user.image=image,
+    await user.save();
+    return user;
+};
 const deleteUser= async (id) => {
     const user = await getUserById(id);
     if (!user)
@@ -98,5 +104,5 @@ module.exports = {
     Signin,
     createUserTestName,
     createUserTestEmail,
-    createUserTestPhoneNumber
+    createUserTestPhoneNumber,updateUserImage
 }

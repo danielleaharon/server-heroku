@@ -17,6 +17,8 @@ const mongoose = require('mongoose');
 const post = require('./routes/post');
 const user = require('./routes/user');
 const devices = require('./routes/devices');
+const calendar = require('./routes/calendar');
+
 const cors = require('cors'); 
 // const socketIo = require('socket.io');
 // const http = require('http');
@@ -45,6 +47,8 @@ app.use(express.json());
 app.use('/posts', post);
 app.use('/user', user);
 app.use('/devices', devices);
+app.use('/calendar', calendar);
+
 
 // const server = http.createServer(app);
 
