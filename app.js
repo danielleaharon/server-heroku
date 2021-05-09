@@ -23,8 +23,6 @@ const cors = require('cors');
 
 require('dotenv').config();
 
-// require('custom-env').env(process.env.NODE_ENV, './config');
-
 mongoose.set('useCreateIndex', true);
 try {
 mongoose.connect( process.env.MOMGO_DB, {useNewUrlParser: true, useUnifiedTopology: true}, () =>{
