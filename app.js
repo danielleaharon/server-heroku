@@ -16,6 +16,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const post = require('./routes/post');
 const user = require('./routes/user');
+const search = require('./routes/search');
+
 const devices = require('./routes/devices');
 const calendar = require('./routes/calendar');
 
@@ -40,6 +42,7 @@ app.use('/posts', post);
 app.use('/user', user);
 app.use('/devices', devices);
 app.use('/calendar', calendar);
+app.use('/search', search);
 
 
 // const server = http.createServer(app);
