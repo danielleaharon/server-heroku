@@ -6,7 +6,6 @@ const Devices = new Schema({
         type: Date,
         default: Date.now
     },
-    userId:String,
     device_name : {
         type: String,
         required: true,
@@ -14,10 +13,6 @@ const Devices = new Schema({
         max:32,
     lowecase:true
     }, 
-    isDelete: {
-        type: Boolean,
-        default: false
-    },
     device_image:String,
    
 });

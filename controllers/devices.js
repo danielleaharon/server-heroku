@@ -75,27 +75,47 @@ const addDevicePost= async (req, res) => {
     // });
   
 };
+
+// const createDevice = (req, res) => {
+
+//   console.log("createDevice")
+//     const device = new Device({
+//         userId:req.body.userId,
+//         device_name: req.body.device_name,
+//         device_image: req.body.device_image,
+
+//     });
+
+//     device.save().then(newPost => {
+//       User.findByIdAndUpdate(req.body.userId , {
+//           $push: {
+//               devices: {
+//                   $each: [newPost],
+//                   $position: 0
+//               }
+//           }
+//       }).then(() => res.json({ status: 'success', value : newPost })).catch(() => {
+//           res.json({ status: 'failed' });
+//       });
+//   }).catch(() => {
+//       res.json({ status: 'failed' });
+//   });
+// }
+
+
+
+
 const createDevice = (req, res) => {
 
   console.log("createDevice")
     const device = new Device({
-        userId:req.body.userId,
         device_name: req.body.device_name,
         device_image: req.body.device_image,
 
     });
 
-    device.save().then(newPost => {
-      User.findByIdAndUpdate(req.body.userId , {
-          $push: {
-              devices: {
-                  $each: [newPost],
-                  $position: 0
-              }
-          }
-      }).then(() => res.json({ status: 'success', value : newPost })).catch(() => {
-          res.json({ status: 'failed' });
-      });
+    device.save().then(newDevice => {
+      res.json({ status: 'success', value : newDevice })
   }).catch(() => {
       res.json({ status: 'failed' });
   });
