@@ -1,5 +1,5 @@
 const deviceService = require('../services/devices');
-const User=require('../models/user');
+const User = require('../models/user');
 const Device = require('../models/devices');
 const Post = require('../models/post');
 
@@ -7,22 +7,22 @@ require('dotenv').config();
 
 
 
-const getDevicesPost = async (req, res) => {   
-  const id =req.params.postId;
-   
-    Post.findById(id).populate('devices').exec(function (err, docs) {
-        if (err) console.error(err.stack||err);
-        res.json(docs.devices);
+const getDevicesPost = async (req, res) => {
+  const id = req.params.postId;
 
-    });
+  Post.findById(id).populate('devices').exec(function (err, docs) {
+    if (err) console.error(err.stack || err);
+    res.json(docs.devices);
+
+  });
 
 
 }
-const getDevicesUser = async (req, res) => {    
-  const id =req.params.userId;
+const getDevicesUser = async (req, res) => {
+  const id = req.params.userId;
   User.findById(id).populate('devices').exec(function (err, docs) {
-      if (err) console.error(err.stack||err);
-      res.json(docs.devices);
+    if (err) console.error(err.stack || err);
+    res.json(docs.devices);
 
   });
 }
@@ -44,36 +44,45 @@ const getDevicesUser = async (req, res) => {
 
 // }
 
-const addDevicePost= async (req, res) => {
+const addDevicePost = async (req, res) => {
 
 
   Device.findById(req.body.deviceId).then(devices => {
-    Post.findByIdAndUpdate(req.body.postId , {
-        $push: {
-          devices: {
-                $each: [devices],
-                $position: 0
-            }
+
+      User.findByIdAndUpdate(req.body.userId , {
+          $push: {
+              devices: {
+                  $each: [devices],
+                  $position: 0
+              }
+          }
+      });
+    Post.findByIdAndUpdate(req.body.postId, {
+      $push: {
+        devices: {
+          $each: [devices],
+          $position: 0
         }
-    }).then(() => res.json({ status: 'success', value : devices })).catch(() => {
-        res.json({ status: 'failed' });
+      }
+    }).then(() => res.json({ status: 'success', value: devices })).catch(() => {
+      res.json({ status: 'failed' });
     });
-}).catch(() => {
+  }).catch(() => {
     res.json({ status: 'failed' });
-});
-    // return await deviceService.addDevicePost(req.body.postId,req.body.deviceId).then((newDevice)=>{
-    //     if(newDevice!=null)
-    //     {
-    //         res.json({
-    //             status:200 
-    //         })
-    //     }
-    //     else{
-    //       res.json({
-    //         status:400 
-    //     })        }
-    // });
-  
+  });
+  // return await deviceService.addDevicePost(req.body.postId,req.body.deviceId).then((newDevice)=>{
+  //     if(newDevice!=null)
+  //     {
+  //         res.json({
+  //             status:200 
+  //         })
+  //     }
+  //     else{
+  //       res.json({
+  //         status:400 
+  //     })        }
+  // });
+
 };
 
 // const createDevice = (req, res) => {
@@ -108,78 +117,80 @@ const addDevicePost= async (req, res) => {
 const createDevice = (req, res) => {
 
   console.log("createDevice")
-    const device = new Device({
-        device_name: req.body.device_name,
-        device_image: req.body.device_image,
+  const device = new Device({
+    device_name: req.body.device_name,
+    device_image: req.body.device_image,
 
-    });
+  });
 
-    device.save().then(newDevice => {
-      res.json({ status: 'success', value : newDevice })
+  device.save().then(newDevice => {
+    res.json({ status: 'success', value: newDevice })
   }).catch(() => {
-      res.json({ status: 'failed' });
+    res.json({ status: 'failed' });
   });
 }
 
 const updateDevice = async (req, res) => {
-  Device.findByIdAndUpdate(req.params.deviceId, 
-      {  
-        device_name:req.body.device_name,
-        device_image:req.body.device_image,
-      
-      },{ new: true }
+  Device.findByIdAndUpdate(req.params.deviceId,
+    {
+      device_name: req.body.device_name,
+      device_image: req.body.device_image,
+
+    }, { new: true }
   ).then(() => res.json({ status: 'success' })).catch((err) => {
-      res.json({ status: "error: "+err});
+    res.json({ status: "error: " + err });
   });
- 
 
-};  
 
-  const deleteDevice = async (req, res) => {
- 
+};
 
-    Device.findById(req.params.deviceId).exec((err,device)=>{
-        if(err||!device){
-             res.status(404).json({ errors: ['Device not found'] });        
-        }
-        else{
-          device.remove().then((suceecs)=>{
-    
-                        User.findByIdAndUpdate(req.params.userId , 
-                            {  $pullAll: {
-                              devices:  [req.params.deviceId]
-                                 
-                            }},{ new: true }
-                        ).then(() => res.json({ status: 'success', value : device })).catch((err) => {
-                            res.json({ status: err });
-                        });
-                    
-            
-                }  );
-        
-    }
-});
+const deleteDevice = async (req, res) => {
+
+  User.findByIdAndUpdate(req.params.userId,
+    {
+      $pullAll: {
+        devices: [req.params.deviceId]
+
+      }
+    }, { new: true }
+  ).then(() => res.json({ status: 'success', value: device })).catch((err) => {
+    res.json({ status: err });
+  });
+
+
+
+
 }
-  // const deleteDevice= async (req, res) => {
-  //   const device = await deviceService.deleteDevice(req.params.id);
-  //   if (!device) {
-  //     return  res.json({ 
-  //       status:400,
-  //       message:' device not found' });    }
-  
-  //       res.json({
-  //         status:200,
-  //       });
-  // };
+
+const getAllDevice = async (req, res) => {
+
+  Device.find({}).exec((err,docs)=>{
+    if (err) console.error(err.stack||err);
+    res.json(docs);
+});
+
+}
+// const deleteDevice= async (req, res) => {
+//   const device = await deviceService.deleteDevice(req.params.id);
+//   if (!device) {
+//     return  res.json({ 
+//       status:400,
+//       message:' device not found' });    }
+
+//       res.json({
+//         status:200,
+//       });
+// };
 
 
 
-  module.exports = {
-    getDevicesPost,
-    getDevicesUser,
-    createDevice,
-    updateDevice,
-    deleteDevice,
-    addDevicePost
-   
-  };
+module.exports = {
+  getDevicesPost,
+  getDevicesUser,
+  createDevice,
+  updateDevice,
+  deleteDevice,
+  addDevicePost,
+  getAllDevice
+
+};
