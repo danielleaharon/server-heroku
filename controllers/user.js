@@ -39,21 +39,21 @@ const createUsertest = async (req, res) => {
       
           }
         });
-        case "PhoneNumber":
-          return await userService.createUserTestPhoneNumber(testAbout).then(respond=>{
-            if(respond==null){
-              res.json({
-                status:200,
-                message:'free' 
-              })
-            }else{
+        // case "PhoneNumber":
+        //   return await userService.createUserTestPhoneNumber(testAbout).then(respond=>{
+        //     if(respond==null){
+        //       res.json({
+        //         status:200,
+        //         message:'free' 
+        //       })
+        //     }else{
               
-              res.json({ 
-                status:400,
-                message:' no free' });
+        //       res.json({ 
+        //         status:400,
+        //         message:' no free' });
         
-            }
-          });
+        //     }
+        //   });
       
 
   }
@@ -61,7 +61,7 @@ const createUsertest = async (req, res) => {
   
 };
 const createUser= async (req, res) => {
-    return await userService.createUser(req.body.email,req.body.name,req.body.password,req.body.PhoneNumber,req.body.isCoach,req.body.zoom_meetingNumber,req.body.zoom_meetingPassword,req.body.image).then((newUser)=>{
+    return await userService.createUser(req.body.email,req.body.name,req.body.password,req.body.age,req.body.gander,req.body.isCoach,req.body.zoom_meetingNumber,req.body.zoom_meetingPassword,req.body.image).then((newUser)=>{
         if(newUser!=null)
         {
             res.json({

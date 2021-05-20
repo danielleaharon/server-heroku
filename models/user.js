@@ -28,7 +28,8 @@ const User = new Schema({
         lowecase:true
 
     },
-    PhoneNumber:String,
+    age:String,
+    gander:String,
     isCoach:Boolean,
     zoom_meetingNumber:String,
     zoom_meetingPassword:String,

@@ -46,6 +46,7 @@ const getDevicesUser = async (req, res) => {
 
 const addDevicePost = async (req, res) => {
 
+console.log("addDevicePost");
 
   Device.findById(req.body.deviceId).then(devices => {
 
@@ -56,7 +57,7 @@ const addDevicePost = async (req, res) => {
                   $position: 0
               }
           }
-      });
+      }).then(()=> console.log("addDeviceUser "+ req.body.userId ));
     Post.findByIdAndUpdate(req.body.postId, {
       $push: {
         devices: {

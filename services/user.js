@@ -26,14 +26,15 @@ const createUserTestPhoneNumber= async (phoneNumber)=>{
 
 }
 
-const createUser = async (email,name,password,PhoneNumber,isCoach,zoom_meetingNumber,zoom_meetingPassword,image) => {
+const createUser = async (email,name,password,age,gander,isCoach,zoom_meetingNumber,zoom_meetingPassword,image) => {
     console.log("createUser")
     const user = new User({
         email : email,
         name: name,
         username:email,
         password:password,
-        PhoneNumber:PhoneNumber,
+        age:age,
+        gander:gander,
         isCoach:isCoach,
         zoom_meetingNumber:zoom_meetingNumber,
         zoom_meetingPassword:zoom_meetingPassword,
