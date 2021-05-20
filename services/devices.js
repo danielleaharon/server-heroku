@@ -22,7 +22,6 @@ console.log("post add devices"+device)
 const createDevice = async ( userId,device_name, device_image) => {
     console.log("createDevice")
     const device = new Device({
-        userId:userId,
         device_name: device_name,
         device_image: device_image,
 
