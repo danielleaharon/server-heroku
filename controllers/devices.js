@@ -53,7 +53,7 @@ console.log("addDevicePost");
       User.findByIdAndUpdate(req.body.userId , {
           $push: {
               devices: {
-                  $each: [devices],
+                  $addToSet: [devices],
                   $position: 0
               }
           }
