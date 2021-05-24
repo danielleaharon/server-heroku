@@ -51,12 +51,8 @@ console.log("addDevicePost");
   Device.findById(req.body.deviceId).then(devices => {
 
       User.findByIdAndUpdate(req.body.userId, {
-          $push: {
-              devices: {
-                  $each: [devices],
-                  $position: 0
-              }
-          }
+          $addToSet: {devices: [devices]}
+                
       }).then(()=> console.log("addDeviceUser "+ req.body.userId ));
     Post.findByIdAndUpdate(req.body.postId, {
       $push: {
