@@ -177,7 +177,7 @@ const getPosts = async (req, res) => {
 };
 const DeletePost = async (req, res) => {
  
-
+console.log("DeletePost");
         Post.findById(req.params.postId).exec((err,post)=>{
             if(err||!post){
                  res.status(404).json({ errors: ['Post not found'] });        

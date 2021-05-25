@@ -4,7 +4,7 @@ var router = express.Router();
 
 router.get('/userId/:userId', postController.get);
 router.post('/', postController.create);
-router.post('/userId/:userId/:postId', postController.updatePost);
+// router.post('/userId/:userId/:postId', postController.updatePost);
 
 router.get('/', postController.getPosts);
 
