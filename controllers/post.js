@@ -178,28 +178,25 @@ const getPosts = async (req, res) => {
 const DeletePost = async (req, res) => {
  
 console.log("DeletePost");
-        Post.findById(req.params.postId).exec((err,post)=>{
-            if(err||!post){
+      const post= await Post.findById(req.params.postId);
+            if(!post){
                  res.status(404).json({ errors: ['Post not found'] });        
             }
             else{
-                   post.remove().then((suceecs)=>{
+                   post.remove().then(repond=>{
+                     User.findByIdAndUpdate(req.params.userId , 
+                        {  $pullAll: {
+                            posts:  [req.params.postId]
+                             
+                        }},{ new: true }
+                    ).then(repond2 =>  res.json({ status: 'success', value : req.params.postId })).catch((err) => {
+                          res.json({ status: err });
+                    });
+                   })
         
-                            User.findOneAndDelete(req.params.postId , 
-                                {  $pullAll: {
-                                    posts:  [req.params.postId]
-                                     
-                                }},{ new: true }
-                            ).then(() => res.json({ status: 'success', value : post })).catch((err) => {
-                                res.json({ status: err });
-                            });
-                        
-                
-                    }  );
-            
-        }
-    });
-}
+    }
+    
+};
 
 const updatePost = async (req, res) => {
     Post.findByIdAndUpdate(req.params.postId, 
