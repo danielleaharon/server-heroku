@@ -34,7 +34,7 @@ const getItemTypeCountes =  async (req, res) => {
 
       {$project: {
         total: '$total',
-        posts: { "$slice": [ "$posts", 2 ] }
+        posts: { "$slice": [ "$posts", 5 ] }
      }},
 
     ]);
