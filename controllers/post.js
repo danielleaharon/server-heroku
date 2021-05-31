@@ -7,7 +7,7 @@ const getItemsTypeCategorey =  async (req, res) => {
     console.log(req.params.category)
 
     const results = await Post.find({ "category" : req.params.category});
-    result.sort((a,b)=>b.likes-a.likes);
+    results.sort((a,b)=>b.likes-a.likes);
 
     console.log(results)
     res.json({results
