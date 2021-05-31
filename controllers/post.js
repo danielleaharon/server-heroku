@@ -6,9 +6,8 @@ const getItemsTypeCategorey =  async (req, res) => {
     console.log("getItemsTypeCategorey")
     console.log(req.params.category)
 
-    const results = await Post.find({ "category" : req.params.category});
+    const results = await Post.find({ "category" : req.params.category}).populate('userId');
     results.sort((a,b)=>b.likes-a.likes);
-
     console.log(results)
     res.json({results
     });
@@ -16,7 +15,6 @@ const getItemsTypeCategorey =  async (req, res) => {
 }
 const getItemTypeCountes =  async (req, res) => {
     console.log("getItemTypeCountes")
-
     const results = await Post.aggregate([
     //   {
     //     $unwind: { 
@@ -28,21 +26,27 @@ const getItemTypeCountes =  async (req, res) => {
         $group: {
           _id: '$category',
           total: { $sum: 1 },
-          posts: { $push: '$$ROOT' }
+          posts: { $push: '$$ROOT'  }
+
         }
-        
       },
+
+
       {$project: {
         total: '$total',
         posts: { "$slice": [ "$posts", 2 ] }
-     }}
+     }},
+
     ]);
   
+
     console.log(results)
+
     res.json({results
     });
  
 }
+
 const getPostsMoreDate =  async (req, res) => {
     console.log("getPostsByDate")
     console.log(req.params.more)

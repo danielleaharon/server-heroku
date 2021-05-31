@@ -13,6 +13,7 @@ const userController = require('../controllers/user');
 
 router.post('/test',userController.createUsertest);
 router.get('/:userId',userController.getUser);
+router.get('/username/:userId',userController.getUserName);
 
 router.post('/signup',userController.createUser);
 router.post('/signin',userController.Signin);

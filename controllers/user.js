@@ -140,7 +140,16 @@ const getUser = async (req, res) => {
 
     res.json(user);
 };
+const getUserName = async (req, res) => {
+  console.log("getUserById")
+    const user = await User.findById(req.params.userId)
+    if (!user) {
+        return res.status(404).json({ errors: ['User not found'] });
+    }
+    
 
+    res.json(user.name);
+};
 const updateUser= async (req, res) => {
    
     const user = await userService.updateUser(req.params.userId,req.body.email,req.body.name,req.body.phoneNumber,req.body.zoom_meetingNumber,req.body.zoom_meetingPassword,req.body.image);
@@ -186,5 +195,5 @@ const updateUser= async (req, res) => {
     Signin,
     Signout,
     createUsertest,
-    updateImage
+    updateImage,getUserName
   };
