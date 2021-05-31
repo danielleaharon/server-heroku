@@ -189,7 +189,7 @@ console.log("DeletePost");
                             posts:  [req.params.postId]
                              
                         }},{ new: true }
-                    ).then(repond2 =>  res.json({ status: 'success', value : req.params.postId })).catch((err) => {
+                    ).then(repond1 =>  res.json({ status: 'success', value : req.params.postId })).catch((err) => {
                           res.json({ status: err });
                     });
                    })
