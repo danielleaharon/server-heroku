@@ -2,6 +2,17 @@ const Post = require('../models/post');
 const User = require('../models/user');
 const PostService = require('../services/post');
 
+const getItemsTypeCategorey =  async (req, res) => {
+    console.log("getItemsTypeCategorey")
+    console.log(req.params.category)
+
+    const results = await Post.find({ "category" : req.params.category});
+
+    console.log(results)
+    res.json({results
+    });
+ 
+}
 const getItemTypeCountes =  async (req, res) => {
     console.log("getItemTypeCountes")
 
@@ -11,13 +22,19 @@ const getItemTypeCountes =  async (req, res) => {
     //         path: "$category",
     //  }
     // },
+    { $sort: { likes: -1} },
       {
         $group: {
           _id: '$category',
           total: { $sum: 1 },
           posts: { $push: '$$ROOT' }
-        },
+        }
+        
       },
+      {$project: {
+        total: '$total',
+        posts: { "$slice": [ "$posts", 2 ] }
+     }}
     ]);
   
     console.log(results)
@@ -225,4 +242,4 @@ const updatePost = async (req, res) => {
 // };           
   
 
-module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost,like,disLike,getPostsMoreDate,getPostsByDate};
+module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost,like,disLike,getPostsMoreDate,getPostsByDate,getItemsTypeCategorey};

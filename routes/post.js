@@ -14,7 +14,8 @@ router.post('/dislike', postController.disLike);
 router.get('/postByDate', postController.getPostsByDate);
 router.get('/postByDate/:more', postController.getPostsMoreDate);
 
-router.get('/category', postController.getItemTypeCountes);
+router.get('/category/:category', postController.getItemsTypeCategorey);
+router.get('/category/', postController.getItemTypeCountes);
 
 router.get('/userId/:userId/:postId', postController.DeletePost);
 
