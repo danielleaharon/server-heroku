@@ -7,6 +7,7 @@ const create = async (req, res) => {
     const user = await User.findById(req.body.userId);
 
     const comment = new Comment({
+        userName:user.name,
         content: req.body.content,
         userId: user,
         postId: post
@@ -22,7 +23,7 @@ const create = async (req, res) => {
 }
 
 const get = async (req, res) => {
-    Post.findById(req.params.postId).populate({path:'comments',populate: { path: 'username' }}).exec(function (err, docs) {
+    Post.findById(req.params.postId).populate('comments').exec(function (err, docs) {
         if (err) console.error(err.stack || err);
         res.json(docs.comments);
     });

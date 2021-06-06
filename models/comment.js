@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const Comment = new Schema({
     content: String,
+    userName: String,
     published: {
         type: Date,
         default: Date.now
