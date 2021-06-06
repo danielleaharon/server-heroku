@@ -24,9 +24,12 @@ const create = async (req, res) => {
 }
 
 const get = async (req, res) => {
-    Post.findById(req.params.postId).populate('comments').exec(function (err, docs) {
+    const id = req.params.postId;
+
+    Post.findById(id).populate('comments').exec(function (err, docs) {
         if (err) console.error(err.stack || err);
-        res.comment.sort((a,b)=>b.published-a.published);
+        console.log( docs.comments);
+        docs.comments.sort((a,b)=>b.published-a.published);
         res.json(docs.comments);
     });
 }
