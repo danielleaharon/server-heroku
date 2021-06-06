@@ -7,6 +7,7 @@ router.post('/', postController.create);
 // router.post('/userId/:userId/:postId', postController.updatePost);
 
 router.get('/', postController.getPosts);
+router.get('/post/:postId', postController.getPost);
 
 router.post('/like', postController.like);
 router.post('/dislike', postController.disLike);

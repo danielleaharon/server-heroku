@@ -197,6 +197,17 @@ const getPosts = async (req, res) => {
    
   
 };
+const getPost = async (req, res) => {
+    console.log("getPost")
+
+    await Post.findById(req.params.postId).populate('userId').exec((err,docs)=>{
+        if (err) console.error(err.stack||err);
+        console.log(docs)
+        res.json(docs);
+    });
+   
+  
+};
 const DeletePost = async (req, res) => {
  
 console.log("DeletePost");
@@ -247,4 +258,4 @@ const updatePost = async (req, res) => {
 // };           
   
 
-module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost,like,disLike,getPostsMoreDate,getPostsByDate,getItemsTypeCategorey};
+module.exports = { create, get ,getPosts,updatePost,getItemTypeCountes,DeletePost,like,disLike,getPostsMoreDate,getPostsByDate,getItemsTypeCategorey,getPost};
