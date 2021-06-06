@@ -17,6 +17,7 @@ const mongoose = require('mongoose');
 const post = require('./routes/post');
 const user = require('./routes/user');
 const search = require('./routes/search');
+const comment = require('./routes/comment');
 
 const devices = require('./routes/devices');
 const calendar = require('./routes/calendar');
@@ -40,6 +41,7 @@ app.use(express.json());
 
 app.use('/posts', post);
 app.use('/user', user);
+app.use('/comment', comment);
 app.use('/devices', devices);
 app.use('/calendar', calendar);
 app.use('/search', search);
