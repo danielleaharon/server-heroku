@@ -8,6 +8,7 @@ const create = async (req, res) => {
 
     const comment = new Comment({
         userName:user.name,
+        userImage:user.image,
         content: req.body.content,
         userId: user,
         postId: post
@@ -25,6 +26,7 @@ const create = async (req, res) => {
 const get = async (req, res) => {
     Post.findById(req.params.postId).populate('comments').exec(function (err, docs) {
         if (err) console.error(err.stack || err);
+        res.comment.sort((a,b)=>b.published-a.published);
         res.json(docs.comments);
     });
 }
