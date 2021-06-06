@@ -34,4 +34,19 @@ const get = async (req, res) => {
     });
 }
 
-module.exports = { create, get };
+  
+const deleteComment =  (req, res) => {
+    const id = req.params.postId;
+    Post.findByIdAndUpdate(id,
+        {
+          $pullAll: {
+            comments: [req.params.commentId]
+    
+          }
+        }, { new: true }
+      ).then(() => res.json({ status: 'success', value: device })).catch((err) => {
+        res.json({ status: err });
+      });
+}
+
+module.exports = { create, get,deleteComment};
