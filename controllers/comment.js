@@ -3,13 +3,13 @@ const Post = require('../models/post');
 const User = require('../models/user');
 
 const create = async (req, res) => {
-    const post = await Post.findById(req.body.post);
-    const user = await User.findOne({ username: req.body.username });
+    const post = await Post.findById(req.body.postId);
+    const user = await User.findById(req.body.userId);
 
     const comment = new Comment({
         content: req.body.content,
-        username: user,
-        post: post
+        userId: user,
+        postId: post
     });
 
     comment.save().then((newComment) => {        

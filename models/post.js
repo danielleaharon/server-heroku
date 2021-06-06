@@ -7,6 +7,12 @@ const Post = new Schema({
         type: Date,
         default: Date.now
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comments"
+      }
+    ],
     devices: [
         {
           type: mongoose.Schema.Types.ObjectId,

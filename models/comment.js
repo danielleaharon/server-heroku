@@ -7,11 +7,11 @@ const Comment = new Schema({
         type: Date,
         default: Date.now
     },
-    username: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    post: {
+    postId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post"
     }
