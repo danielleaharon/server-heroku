@@ -140,23 +140,23 @@ const get = async (req, res) => {
 
     const id =req.params.userId;
     var username;
-  User.findById(id).populate('posts').exec(function (err, docs) {
+  User.findById(id).populate({path:'posts',populate: { path: 'userId' }}).exec(function (err, docs) {
         if (err) console.error(err.stack||err);
         const post=docs.posts;
-        console.log(post)
-        if(post[0]!=null){
-            console.log("in")
-            User.findById(post[0].userId).then(user=>{
-                username =user.name
-                res.json([docs.posts,username,user.image]);
+        // console.log(post)
+        // if(post[0]!=null){
+        //     console.log("in")
+        //     User.findById(post[0].userId).then(user=>{
+        //         username =user.name
+        //         res.json([docs.posts,username,user.image]);
        
-               });
-        }else{
-            console.log("out")
+        //        });
+        // }else{
+            // console.log("out")
 
             res.json([docs.posts]);
 
-        }
+        // }
      
         
 
