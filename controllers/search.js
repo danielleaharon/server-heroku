@@ -44,8 +44,8 @@ const searchCalenderByDate =  async (req, res) => {
     var myCurrentDate=new Date();
     var myPastDate=new Date(myCurrentDate);
         myPastDate.setDate(myPastDate.getDate() - 2);//2 day's befor
-    const result=  await Calendar.find({ "meeting_date" : { $gt: myPastDate } } ).populate('userId');    // value1 < field < value
-result.sort((a,b)=>b.published-a.published);
+    const result=  await Calendar.find({ "meeting_date" : { $gt: myCurrentDate } } ).populate('userId');    // value1 < field < value
+result.sort((a,b)=>a.published-b.published);
  
     res.json(result);
 
