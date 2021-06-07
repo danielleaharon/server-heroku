@@ -60,7 +60,7 @@ const searchCalenderbyCategory =  async (req, res) => {
         //     res.json(docs)
         // } 
     ).populate('userId');
-    result.sort((a,b)=>b.published-a.published);
+    result.sort((a,b)=>a.published-b.published);
     res.json(result);
 
   
