@@ -54,13 +54,14 @@ const searchCalenderbyCategory =  async (req, res) => {
     console.log("searchCalenderbyCategory")
 
     var category= req.params.search;
-    Calendar.find(
-        { "category": { "$regex": category, "$options": "i" } },
-        function(err,docs) { 
-            console.log(docs)
-            res.json(docs)
-        } 
-    );
+    const result= await Calendar.find({ "category": { "$regex": category, "$options": "i" } }
+        // function(err,docs) { 
+        //     console.log(docs)
+        //     res.json(docs)
+        // } 
+    ).populate('userId');
+    result.sort((a,b)=>b.published-a.published);
+    res.json(result);
 
   
  
