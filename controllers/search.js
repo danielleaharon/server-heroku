@@ -50,6 +50,19 @@ result.sort((a,b)=>a.published-b.published);
     res.json(result);
 
 }   
+const searchCalenderByDate2 =  async (req, res) => {
+    console.log("searchCalenderByDate2")
+
+ 
+
+    var myCurrentDate=req.body.date;
+    console.log(myCurrentDate)
+    const result=  await Calendar.find({ "meeting_date" : { $gt: myCurrentDate, $lt: myCurrentDate} } ).populate('userId');    // value1 < field < value
+ 
+    res.json(result);
+  
+ 
+}
 const searchCalenderbyCategory =  async (req, res) => {
     console.log("searchCalenderbyCategory")
 
@@ -68,4 +81,4 @@ const searchCalenderbyCategory =  async (req, res) => {
 }     
   
 
-module.exports = { searchUser,searchCalenderByDate,searchCalenderbyCategory};
+module.exports = { searchUser,searchCalenderByDate,searchCalenderbyCategory,searchCalenderByDate2};
