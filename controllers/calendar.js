@@ -41,15 +41,15 @@ let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +
     }
   });
 }
-const sendmailGet=async (req,res)=>{
+const sendmailGet= async (req,res)=>{
 console.log("sendmailGet ");
   let coachId = req.params.userId;
   let currectUser = req.params.Id;
   let calendar=req.params.calendarId;
 
-  const coach= await User.findById(coachId);
-  const CurrectUser= await User.findById(currectUser);
-const CalendarId= await Calendar.findById(calendar);
+  let coach= await User.findById(coachId);
+  let CurrectUser= await User.findById(currectUser);
+  let CalendarId= await Calendar.findById(calendar);
 let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +' signed up for your ' +CalendarId.category+' training <br>on: '+CalendarId.meeting_date+'</h3>';
   var transporter = nodemailer.createTransport({
     service: 'gmail',
