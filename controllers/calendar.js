@@ -9,10 +9,12 @@ const sendmail= async (userId,Id,calendarId)=>{
   let currectUser = Id;
   let calendar=calendarId;
 
+  console.log("userId:"+userId);
 
-  const coach= await User.findById(coachId);
-  const CurrectUser= await User.findById(currectUser);
-const CalendarId= await Calendar.findById(calendar);
+  const coach= await User.findById(userId);
+  const CurrectUser= await User.findById(Id);
+const CalendarId= await Calendar.findById(calendarId);
+console.log(coach)
 let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +' signed up for your ' +CalendarId.category+' training <br>on: '+CalendarId.meeting_date+'</h3>';
   var transporter = nodemailer.createTransport({
     service: 'gmail',
