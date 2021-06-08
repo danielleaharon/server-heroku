@@ -3,11 +3,11 @@ const Calendar = require('../models/calendar');
 const nodemailer = require("nodemailer");
 require('dotenv').config();
 
-const sendmail= async (req,res)=>{
+const sendmail= async (userId,Id,calendarId)=>{
 
-  let coachId = req.body.userId;
-  let currectUser = req.body.Id;
-  let calendar=req.body.calendarId;
+  let coachId = userId;
+  let currectUser = Id;
+  let calendar=calendarId;
 
 
   const coach= await User.findById(coachId);
@@ -94,7 +94,7 @@ const getCalendarUser = async (req, res) => {
 
 
 const addCalendarUser= async (req, res) => {
-  sendmail(req,res);
+  sendmail(req.body.userId,req.body.Id,req.body.calendarId);
   Calendar.findByIdAndUpdate(req.body.calendarId,{
     $push: {
       users: [req.body.Id]
