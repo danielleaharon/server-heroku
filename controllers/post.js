@@ -115,7 +115,7 @@ const like = (req, res) => {
     Post.findByIdAndUpdate(req.body.postId,{
         $inc:{likes:1}
 
-    }).then(post=>{
+    },{ new: true } ).then(post=>{
         console.log("like:"+{post})
         User.findByIdAndUpdate(req.body.userId , {
             $push: {
@@ -169,7 +169,7 @@ const disLike = (req, res) => {
     Post.findByIdAndUpdate(req.body.postId,{
         $inc:{likes:-1}
 
-    }).then(post=>{
+    },{ new: true }).then(post=>{
         console.log("disLike:"+{post})
         User.findByIdAndUpdate(req.body.userId , {
             $pullAll: {
