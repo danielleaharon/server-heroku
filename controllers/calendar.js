@@ -96,7 +96,12 @@ const getCalendarUser = async (req, res) => {
 
 
 const addCalendarUser= async (req, res) => {
-  sendmail(req.body.userId,req.body.Id,req.body.calendarId);
+  const userId=req.body.userId;
+  const Id=req.body.Id;
+  const calendarId=req.body.calendarId;
+
+  console.log(userId,Id,calendarId);
+  sendmail(userId,Id,calendarId);
   Calendar.findByIdAndUpdate(req.body.calendarId,{
     $push: {
       users: [req.body.Id]
