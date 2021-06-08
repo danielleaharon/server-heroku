@@ -42,7 +42,7 @@ let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +
   });
 }
 const sendmailGet=async (userId,Id,calendarId)=>{
-console.log("sendmailGet");
+console.log("sendmailGet ");
   let coachId = userId;
   let currectUser = Id;
   let calendar=calendarId;
