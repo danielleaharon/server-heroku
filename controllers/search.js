@@ -60,7 +60,7 @@ const searchCalenderByDate2 =  async (req, res) => {
     var myfutureDate=new Date(myCurrentDate);
     myfutureDate.setDate(myfutureDate.getDate() - 1);
     var myfutureDate2=new Date(myCurrentDate);
-    myfutureDate2.setDate(myfutureDate.getDate() + 1);
+    myfutureDate2.setDate(myfutureDate2.getDate() + 1);
     const result=  await Calendar.find({ "meeting_date" : { $gt: myfutureDate, $lt: myfutureDate2} } ).populate('userId');    // value1 < field < value
  
     res.json(result);
