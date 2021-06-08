@@ -118,12 +118,14 @@ const like = (req, res) => {
     },{ new: true } ).then(post=>{
         console.log("like:"+{post})
         User.findByIdAndUpdate(req.body.userId , {
-            $push: {
-                posts: {
-                    $each: [post],
-                    $position: 0
-                }
-            }
+            $addToSet: {posts: [post]}
+
+            // $push: {
+            //     posts: {
+            //         $each: [post],
+            //         $position: 0
+            //     }
+            // }
         }).then(() => 
         res.json({ status: 'success', value : post })).catch(() => {
             res.json({ status: 'failed' });
