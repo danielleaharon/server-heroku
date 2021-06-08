@@ -42,10 +42,11 @@ console.log("sendmailGet");
   let currectUser = req.params.Id;
   let calendar=req.params.calendarId;
 
-  const coach= await User.findById(coachId);
-  const CurrectUser= await User.findById(currectUser);
-const CalendarId= await Calendar.findById(calendar);
-let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +' signed up for your ' +CalendarId.category+' training <br>on: '+CalendarId.meeting_date+'</h3>';
+  const coach= User.findById(coachId);
+  const CurrectUser= User.findById(currectUser);
+const CalendarId= Calendar.findById(calendar);
+  let emailText = "hi "+coach.name +"!!,"+CurrectUser.name +"comming to your" +CalendarId.category+" workout! in " +CalendarId.meeting_date;
+
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -56,14 +57,8 @@ let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +
   var mailOptions = {
     from: 'fitshare7@gmail.com',
     to: coach.username,
-    subject: 'Sign up for your workout- FITSHARE',
-    text: emailText,
-  html: emailText+ '<br> <img src="cid:logo"/>',
-    attachments: [{
-        filename: 'logomail.png',
-        path:  './logomail.png',
-        cid: 'logo' //same cid value as in the html img src
-    }]
+    subject: 'new member in Workout',
+    text: emailText
   };
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
@@ -85,7 +80,7 @@ const getCalendarUser = async (req, res) => {
 
 
 const addCalendarUser= async (req, res) => {
-
+  sendmail(req,res);
   Calendar.findByIdAndUpdate(req.body.calendarId,{
     $push: {
       users: [req.body.userId]
