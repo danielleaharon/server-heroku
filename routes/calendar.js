@@ -10,6 +10,8 @@ router.post('/update/:calendarId',calendarController.updateCalendarEvent);
 router.get('/delete/:calendarId/:userId',calendarController.deleteCalendarEvent);
 router.get('/:userId',calendarController.getCalendarUser);
 router.get('/deleteTraining/:calendarId/:userId',calendarController.deleteCalendarEventTrainig);
+router.post('/sendEmail/',calendarController.sendmail);
+router.get('/sendEmail/:userId/:Id/:calendarId',calendarController.sendmailGet);
 
 
 module.exports = router;

@@ -15,6 +15,12 @@ const Calendar = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    users: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User"
+        }
+      ],
     username:String,
     category:String,
     calenderEvent_id:Number,

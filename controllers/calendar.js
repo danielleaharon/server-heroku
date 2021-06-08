@@ -1,9 +1,79 @@
 const User=require('../models/user');
 const Calendar = require('../models/calendar');
-
+const nodemailer = require("nodemailer");
 require('dotenv').config();
 
+const sendmail=(req,res)=>{
 
+  let coachId = req.body.userId;
+  let currectUser = req.body.Id;
+  let calendar=req.body.calendarId;
+
+  const coach= User.findById(coachId);
+  const CurrectUser= User.findById(currectUser);
+const CalendarId= Calendar.findById(calendar);
+  let emailText = "hi "+coach.name +"!!,"+CurrectUser.name +"comming to your" +CalendarId.category+" workout! in " +CalendarId.meeting_date;
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'fitshare7@gmail.com',
+      pass: 'Dda024841975'
+    }
+  }); 
+  var mailOptions = {
+    from: 'fitshare7@gmail.com',
+    to: coach.username,
+    subject: 'new member in Workout',
+    text: emailText
+  };
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+}
+const sendmailGet=async (req,res)=>{
+console.log("sendmailGet");
+  let coachId = req.params.userId;
+  let currectUser = req.params.Id;
+  let calendar=req.params.calendarId;
+
+  const coach= await User.findById(coachId);
+  const CurrectUser= await User.findById(currectUser);
+const CalendarId= await Calendar.findById(calendar);
+let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +' signed up for your ' +CalendarId.category+' training <br>on: '+CalendarId.meeting_date+'</h3>';
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'fitshare7@gmail.com',
+      pass: 'Dda024841975'
+    }
+  }); 
+  var mailOptions = {
+    from: 'fitshare7@gmail.com',
+    to: coach.username,
+    subject: 'Sign up for your workout- FITSHARE',
+    text: emailText,
+  html: emailText+ '<br> <img src="cid:logo"/>',
+    attachments: [{
+        filename: 'logomail.png',
+        path:  './logomail.png',
+        cid: 'logo' //same cid value as in the html img src
+    }]
+  };
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+}
 const getCalendarUser = async (req, res) => {    
   const id =req.params.userId;
   User.findById(id).populate('calendar_events').exec(function (err, docs) {
@@ -16,8 +86,11 @@ const getCalendarUser = async (req, res) => {
 
 const addCalendarUser= async (req, res) => {
 
-
-  Calendar.findById(req.body.calendarId).then(calendar => {
+  Calendar.findByIdAndUpdate(req.body.calendarId,{
+    $push: {
+      users: [req.body.userId]
+    }
+  }).then(calendar => {
     User.findByIdAndUpdate(req.body.userId , {
         $push: {
           calendar_events: [calendar]
@@ -125,7 +198,9 @@ const deleteCalendarEventTrainig = async (req, res) => {
     updateCalendarEvent,
     createCalendarEvent,
     addCalendarUser,
-    deleteCalendarEventTrainig
+    deleteCalendarEventTrainig,
+    sendmail,
+    sendmailGet
     
    
   };
