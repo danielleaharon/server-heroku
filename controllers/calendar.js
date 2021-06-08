@@ -41,11 +41,11 @@ let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +
     }
   });
 }
-const sendmailGet=async (userId,Id,calendarId)=>{
+const sendmailGet=async (req,res)=>{
 console.log("sendmailGet ");
-  let coachId = userId;
-  let currectUser = Id;
-  let calendar=calendarId;
+  let coachId = req.params.userId;
+  let currectUser = req.params.Id;
+  let calendar=req.params.calendarId;
 
   const coach= await User.findById(coachId);
   const CurrectUser= await User.findById(currectUser);
@@ -74,6 +74,8 @@ let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +
     if (error) {
       console.log(error);
     } else {
+      res.json({ status: 'success' });
+
       console.log('Email sent: ' + info.response);
     }
   });
@@ -90,7 +92,6 @@ const getCalendarUser = async (req, res) => {
 
 
 const addCalendarUser= async (req, res) => {
-  await sendmailGet(req.body.userId,req.body.Id,req.body.calendarId);
   Calendar.findByIdAndUpdate(req.body.calendarId,{
     $push: {
       users: [req.body.Id]
