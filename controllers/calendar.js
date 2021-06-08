@@ -3,7 +3,7 @@ const Calendar = require('../models/calendar');
 const nodemailer = require("nodemailer");
 require('dotenv').config();
 
-const sendmail=(req,res)=>{
+const sendmail= async (req,res)=>{
 
   let coachId = req.body.userId;
   let currectUser = req.body.Id;
@@ -37,6 +37,8 @@ let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +
     if (error) {
       console.log(error);
     } else {
+      res.json({ status: 'success' });
+
       console.log('Email sent: ' + info.response);
     }
   });
@@ -92,6 +94,7 @@ const getCalendarUser = async (req, res) => {
 
 
 const addCalendarUser= async (req, res) => {
+  sendmail(req,res);
   Calendar.findByIdAndUpdate(req.body.calendarId,{
     $push: {
       users: [req.body.Id]
