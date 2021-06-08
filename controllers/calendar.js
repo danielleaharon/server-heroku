@@ -83,10 +83,10 @@ const addCalendarUser= async (req, res) => {
   sendmail(req,res);
   Calendar.findByIdAndUpdate(req.body.calendarId,{
     $push: {
-      users: [req.body.userId]
+      users: [req.body.Id]
     }
   }).then(calendar => {
-    User.findByIdAndUpdate(req.body.userId , {
+    User.findByIdAndUpdate(req.body.Id , {
         $push: {
           calendar_events: [calendar]
         }
