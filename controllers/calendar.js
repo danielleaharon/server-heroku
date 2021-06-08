@@ -87,7 +87,7 @@ let emailText= '<h3> hey '+coach.name +'!! <br> The trainee '+CurrectUser.name +
 }
 const getCalendarUser = async (req, res) => {    
   const id =req.params.userId;
-  User.findById(id).populate('calendar_events').exec(function (err, docs) {
+  User.findById(id).populate({path:'calendar_events',populate: { path: 'users' ,populate: { path: 'userId' }}}).exec(function (err, docs) {
       if (err) console.error(err.stack||err);
       res.json(docs.calendar_events);
 
