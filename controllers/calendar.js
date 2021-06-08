@@ -192,7 +192,11 @@ const updateCalendarEvent = async (req, res) => {
 }
 const deleteCalendarEventTrainig = async (req, res) => {
  
-  
+  Calendar.findByIdAndUpdate(req.params.calendarId, {  
+    $pullAll: {
+    users:  [req.params.userId]
+       
+  }},{ new: true }).then(()=>{
                       User.findByIdAndUpdate(req.params.userId , 
                           {  $pullAll: {
                             calendar_events:  [req.params.calendarId]
@@ -201,7 +205,7 @@ const deleteCalendarEventTrainig = async (req, res) => {
                       ).then(() => res.json({ status: 'success', value : calendar })).catch((err) => {
                           res.json({ status: err });
                       });
-                  
+                    });
           
               } 
       
