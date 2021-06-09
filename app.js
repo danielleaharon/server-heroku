@@ -21,11 +21,16 @@ const comment = require('./routes/comment');
 const recommendations = require('./routes/recommendations');
 const devices = require('./routes/devices');
 const calendar = require('./routes/calendar');
+const raccoon = require('raccoon');
 
 const cors = require('cors'); 
 
 require('dotenv').config();
+raccoon.config.host=process.env.POSTGRES_HOST;
+raccoon.config.redisPort=process.env.RACCOON_REDIS_PORT;
+raccoon.config.redisUrl=process.env.RACCOON_REDIS_URL;
 
+console.log(raccoon.config)
 mongoose.set('useCreateIndex', true);
 try {
 mongoose.connect( process.env.MOMGO_DB, {useNewUrlParser: true, useUnifiedTopology: true}, () =>{
