@@ -32,7 +32,6 @@ require('dotenv').config();
 // raccoon.config.redisPort=process.env.RACCOON_REDIS_PORT;
 // raccoon.config.redisUrl=process.env.RACCOON_REDIS_URL;
 
-console.log(raccoon.config)
 mongoose.set('useCreateIndex', true);
 try {
 mongoose.connect( process.env.MOMGO_DB, {useNewUrlParser: true, useUnifiedTopology: true}, () =>{
