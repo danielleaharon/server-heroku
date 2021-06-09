@@ -1,11 +1,11 @@
-  raccoon = require("raccoon");
+const raccoon = require("raccoon");
   // raccoon = require("@maruware/raccoon");
 const Post = require("../models/post");
 
 const getUserRecommendations = async (req, res) => {  
-  const userId = req.body.userId;
+  const userId = req.params.userId;
 
-const postsIds = await raccoon.recommendFor(userId, 10)
+const postsIds = await raccoon.recommendFor(userId, 2)
       .then((_) => {
         console.log('recommendation For user: ' + _);
         return _;
@@ -14,7 +14,7 @@ const postsIds = await raccoon.recommendFor(userId, 10)
   console.log(postsIds);
 
   const posts = await Promise.all(
-    postsIds.map((postId) => Post.findById(postId))
+    postsIds.map((postId) =>  Post.findById(postId))
   );
 
   return res.json({
@@ -33,8 +33,8 @@ const postsMostLiked = async (req, res) => {
 
   console.log('before mapping: ' + mostLiked);
   
-  const posts = await Promise.all(
-    mostLiked.map((postId) => Post.findById(postId))
+  let posts = await Promise.all(
+    mostLiked.map((postId) =>  Post.findById(postId))
   );
 
   return res.json({
