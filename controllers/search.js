@@ -58,11 +58,22 @@ const searchCalenderByDate2 =  async (req, res) => {
     var myCurrentDate=req.body[0];
     console.log(myCurrentDate)
     var myfutureDate=new Date(myCurrentDate);
-    myfutureDate.setDate(myfutureDate.getDate() - 1);
+   
+    myfutureDate.setDate(myfutureDate.getDate() );
+    myfutureDate.setHours(8);
+    myfutureDate.setMinutes(0)
+    console.log(myfutureDate)
+
     var myfutureDate2=new Date(myCurrentDate);
-    myfutureDate2.setDate(myfutureDate2.getDate() + 1);
+  
+
+    myfutureDate2.setDate(myfutureDate2.getDate() );
+    myfutureDate2.setHours(25);
+    myfutureDate2.setMinutes(0)
+    console.log(myfutureDate2)
+
     const result=  await Calendar.find({ "meeting_date" : { $gt: myfutureDate, $lt: myfutureDate2} } ).populate('userId');    // value1 < field < value
- 
+
     res.json(result);
   
  
@@ -78,7 +89,7 @@ const searchCalenderbyCategory =  async (req, res) => {
         // } 
     ).populate('userId');
     result.sort((a,b)=>a.published-b.published);
-    res.json({status: 'success', value: result});
+    res.json(result);
 
   
  

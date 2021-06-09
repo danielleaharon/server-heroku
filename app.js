@@ -45,6 +45,7 @@ app.use('/comment', comment);
 app.use('/devices', devices);
 app.use('/calendar', calendar);
 app.use('/search', search);
+// app.use('/recommendations', recommendations);
 
 
 // const server = http.createServer(app);
