@@ -1,6 +1,6 @@
-const raccoon = require("raccoon");
+const raccoon = require('raccoon');
   // raccoon = require("@maruware/raccoon");
-const Post = require("../models/post");
+const Post = require('../models/post');
 
 const getUserRecommendations = async (req, res) => {  
   const userId = req.params.userId;
