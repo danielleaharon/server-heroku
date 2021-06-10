@@ -22,14 +22,14 @@ const recommendations = require('./routes/recommendations');
 const devices = require('./routes/devices');
 const calendar = require('./routes/calendar');
 
-var raccoon = require('raccoon');
+// var raccoon = require('raccoon');
 
 const cors = require('cors'); 
 
 require('dotenv').config();
-raccoon.config.localSetup = false;
-raccoon.config.redisUrl='52.59.36.11';
-console.log(raccoon.config);
+// raccoon.config.localSetup = false;
+// raccoon.config.redisUrl='52.59.36.11';
+// console.log(raccoon.config);
 
 mongoose.set('useCreateIndex', true);
 try {
@@ -50,7 +50,7 @@ app.use('/comment', comment);
 app.use('/devices', devices);
 app.use('/calendar', calendar);
 app.use('/search', search);
-app.use('/recommendations', recommendations);
+// app.use('/recommendations', recommendations);
 
 
 
