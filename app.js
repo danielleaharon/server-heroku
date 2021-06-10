@@ -28,6 +28,7 @@ const cors = require('cors');
 
 require('dotenv').config();
 
+raccoon.config.redisUrl='52.59.36.11';
 console.log(raccoon.config);
 
 mongoose.set('useCreateIndex', true);
