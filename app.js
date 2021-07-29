@@ -18,7 +18,7 @@ const post = require('./routes/post');
 const user = require('./routes/user');
 const search = require('./routes/search');
 const comment = require('./routes/comment');
-const recommendations = require('./routes/recommendations');
+// const recommendations = require('./routes/recommendations');
 const devices = require('./routes/devices');
 const calendar = require('./routes/calendar');
 
@@ -50,7 +50,7 @@ app.use('/comment', comment);
 app.use('/devices', devices);
 app.use('/calendar', calendar);
 app.use('/search', search);
-app.use('/recommendations', recommendations);
+// app.use('/recommendations', recommendations);
 
 
 
