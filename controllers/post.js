@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 const User = require('../models/user');
-// const raccoon = require('raccoon');
+const raccoon = require('raccoon');
 
 
 
@@ -75,7 +75,7 @@ const getPostsByDate =  async (req, res) => {
 
     var myCurrentDate=new Date();
     var myPastDate=new Date(myCurrentDate);
-        myPastDate.setDate(myPastDate.getDate() - 2);//2 day's befor
+        myPastDate.setDate(myPastDate.getDate() - 60);//2 day's befor
     const result=  await Post.find({ "published" : { $gt: myPastDate } } ).populate('userId');    // value1 < field < value
 result.sort((a,b)=>b.published-a.published);
  
@@ -114,9 +114,9 @@ const create = (req, res) => {
 const like = (req, res) => {
     console.log("like:"+req.body.postId)
     
-    // raccoon.liked(req.body.userId, req.body.postId).then((_) => {
-    //     console.log("raccoon liked");
-    //   });
+    raccoon.liked(req.body.userId, req.body.postId).then((_) => {
+        console.log("raccoon liked");
+      });
 
     Post.findByIdAndUpdate(req.body.postId,{
         $inc:{likes:1}
@@ -175,9 +175,9 @@ const disLike = (req, res) => {
     console.log("disLike:")
 
     
-//   raccoon.disliked(req.body.userId, req.body.postId).then((_) => {
-//     console.log("raccoon disliked");
-//   });
+  raccoon.disliked(req.body.userId, req.body.postId).then((_) => {
+    console.log("raccoon disliked");
+  });
     Post.findByIdAndUpdate(req.body.postId,{
         $inc:{likes:-1}
 
