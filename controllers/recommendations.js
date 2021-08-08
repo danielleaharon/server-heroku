@@ -15,7 +15,7 @@ const postsIds = await raccoon.recommendFor(userId, 2)
   console.log(postsIds);
 
   const posts = await Promise.all(
-    postsIds.map((postId) =>  Post.findById(postId))
+    postsIds.map((postId) =>  Post.findById(postId).populate('userId'))
   );
 
   return res.json(posts);
