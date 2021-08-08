@@ -18,17 +18,21 @@ const post = require('./routes/post');
 const user = require('./routes/user');
 const search = require('./routes/search');
 const comment = require('./routes/comment');
-// const recommendations = require('./routes/recommendations');
+const recommendations = require('./routes/recommendations');
 const devices = require('./routes/devices');
 const calendar = require('./routes/calendar');
 
-// var raccoon = require('raccoon');
+var raccoon = require('raccoon');
 
 const cors = require('cors'); 
 
-// require('dotenv').config();
-// raccoon.config.localSetup = false;
-// // raccoon.config.redisUrl='52.59.36.11';
+require('dotenv').config();
+raccoon.config.localSetup = false;
+raccoon.config.redisUrl=process.env.RACCOON_REDIS_URL;
+raccoon.config.redisPort=process.env.RACCOON_REDIS_PORT;
+raccoon.config.redisAuth=process.env.RACCOON_REDIS_AUTH;
+raccoon.config.className='likes';
+
 // console.log(raccoon.config);
 
 mongoose.set('useCreateIndex', true);
@@ -50,7 +54,7 @@ app.use('/comment', comment);
 app.use('/devices', devices);
 app.use('/calendar', calendar);
 app.use('/search', search);
-// app.use('/recommendations', recommendations);
+app.use('/recommendations', recommendations);
 
 
 

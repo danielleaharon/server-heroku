@@ -1,7 +1,8 @@
 const Post = require('../models/post');
 const User = require('../models/user');
-// const raccoon = require('raccoon');
+const raccoon = require('raccoon');
 
+raccoon.config.localSetup = false;
 
 
 const getItemsTypeCategorey =  async (req, res) => {
@@ -114,9 +115,9 @@ const create = (req, res) => {
 const like = (req, res) => {
     console.log("like:"+req.body.postId)
     
-    // raccoon.liked(req.body.userId, req.body.postId).then((_) => {
-    //     console.log("raccoon liked");
-    //   });
+    raccoon.liked(req.body.userId, req.body.postId).then((_) => {
+        console.log("raccoon liked");
+      });
 
     Post.findByIdAndUpdate(req.body.postId,{
         $inc:{likes:1}
@@ -175,9 +176,9 @@ const disLike = (req, res) => {
     console.log("disLike:")
 
     
-//   raccoon.disliked(req.body.userId, req.body.postId).then((_) => {
-//     console.log("raccoon disliked");
-//   });
+  raccoon.disliked(req.body.userId, req.body.postId).then((_) => {
+    console.log("raccoon disliked");
+  });
     Post.findByIdAndUpdate(req.body.postId,{
         $inc:{likes:-1}
 
