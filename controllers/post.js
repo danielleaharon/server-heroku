@@ -55,7 +55,7 @@ const getPostsMoreDate =  async (req, res) => {
     console.log(req.params.more)
     const d = new Date()
     var myCurrentDate=new Date();
-    myCurrentDate.setDate(myCurrentDate.getDate()-req.params.more*2);
+    myCurrentDate.setDate(myCurrentDate.getDate()-req.params.more*30);
     console.log(myCurrentDate)
 
     var myPastDate=new Date(myCurrentDate);
@@ -76,7 +76,7 @@ const getPostsByDate =  async (req, res) => {
 
     var myCurrentDate=new Date();
     var myPastDate=new Date(myCurrentDate);
-        myPastDate.setDate(myPastDate.getDate() - 60);//2 day's befor
+        myPastDate.setDate(myPastDate.getDate() - 70);//2 day's befor
     const result=  await Post.find({ "published" : { $gt: myPastDate } } ).populate('userId');    // value1 < field < value
 result.sort((a,b)=>b.published-a.published);
  
